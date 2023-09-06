@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,5 +20,23 @@ class PostController extends Controller
     {
         $data = Post::all();
         return Inertia::render('posts', ['data' => $data]);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
+     */
+    public function store(Request $request): RedirectResponse
+
+    {
+        Validator::make($request->all(),[
+            'title' => ['required'],
+            'body' => ['required'],
+        ])->validate();
+
+        Post::query()->create($request->all());
+        return redirect()->back()->with('message', 'Post Created Successfully.');
+
     }
 }

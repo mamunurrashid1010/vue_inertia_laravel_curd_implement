@@ -37,3 +37,4 @@ Route::middleware([
 
 # posts
 Route::get('posts', [PostController::class,'index'])->name('posts.index');
+Route::post('posts/store', [PostController::class,'store'])->name('posts.store');
