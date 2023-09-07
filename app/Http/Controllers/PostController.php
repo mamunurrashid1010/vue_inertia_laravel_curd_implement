@@ -28,7 +28,6 @@ class PostController extends Controller
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
-
     {
         Validator::make($request->all(),[
             'title' => ['required'],
@@ -37,6 +36,22 @@ class PostController extends Controller
 
         Post::query()->create($request->all());
         return redirect()->back()->with('message', 'Post Created Successfully.');
-
     }
+
+    /**
+     * @return Response
+     */
+    public function update(Request $request)
+    {
+        Validator::make($request->all(), [
+            'title' => ['required'],
+            'body' => ['required'],
+        ])->validate();
+
+        if ($request->has('id')) {
+            Post::find($request->input('id'))->update($request->all());
+            return redirect()->back()->with('message', 'Post Updated Successfully.');
+        }
+    }
+
 }
