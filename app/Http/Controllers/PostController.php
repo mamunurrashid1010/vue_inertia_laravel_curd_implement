@@ -39,9 +39,11 @@ class PostController extends Controller
     }
 
     /**
-     * @return Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         Validator::make($request->all(), [
             'title' => ['required'],
@@ -52,6 +54,20 @@ class PostController extends Controller
             Post::find($request->input('id'))->update($request->all());
             return redirect()->back()->with('message', 'Post Updated Successfully.');
         }
+        return redirect()->back()->with('message', 'Fail!');
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        if ($request->has('id')) {
+            Post::query()->find($request->input('id'))->delete();
+            return redirect()->back()->with('message', 'Post Deleted Successfully.');
+        }
+        return redirect()->back()->with('message', 'Fail!');
     }
 
 }

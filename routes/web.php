@@ -39,3 +39,4 @@ Route::middleware([
 Route::get('posts', [PostController::class,'index'])->name('posts.index');
 Route::post('posts/store', [PostController::class,'store'])->name('posts.store');
 Route::post('posts/update/{id}', [PostController::class,'update'])->name('posts.update');
+Route::delete('posts/destroy/{id}', [PostController::class,'destroy'])->name('posts.destroy');
