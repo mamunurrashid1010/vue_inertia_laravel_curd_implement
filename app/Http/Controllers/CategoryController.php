@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -32,13 +35,19 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        Validator::make($request->all(),[
+            'name' => ['required'],
+            'description' => ['required'],
+        ])->validate();
+
+        Categories::query()->create($request->all());
+        return redirect()->back()->with('message', 'Category Created Successfully.');
     }
 
     /**
