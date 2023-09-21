@@ -73,17 +73,23 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request): RedirectResponse
     {
-        //
-    }
+        Validator::make($request->all(), [
+            'name' => ['required'],
+            'description' => ['required'],
+        ])->validate();
 
+        if ($request->has('id')) {
+            Categories::query()->find($request->input('id'))->update($request->all());
+            return redirect()->back()->with('message', 'Category Updated Successfully.');
+        }
+        return redirect()->back()->with('message', 'Fail!');
+    }
     /**
      * Remove the specified resource from storage.
      *
