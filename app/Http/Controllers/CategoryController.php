@@ -90,14 +90,17 @@ class CategoryController extends Controller
         }
         return redirect()->back()->with('message', 'Fail!');
     }
+
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request): RedirectResponse
     {
-        //
+        if ($request->has('id')) {
+            Categories::query()->find($request->input('id'))->delete();
+            return redirect()->back()->with('message', 'Category Deleted Successfully.');
+        }
+        return redirect()->back()->with('message', 'Fail!');
     }
 }
