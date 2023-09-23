@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index(): Response
     {
         $data = Categories::all();
-        return Inertia::render('category', ['data' => $data]);
+        return Inertia::render('categories', ['data' => $data]);
     }
 
     /**
