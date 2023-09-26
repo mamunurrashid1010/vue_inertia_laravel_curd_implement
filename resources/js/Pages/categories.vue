@@ -1,5 +1,6 @@
 <template>
     <app-layout>
+        <Head title="Category" />
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Manage Category
@@ -44,6 +45,7 @@
 
 <script>
 import AppLayout from "../Layouts/AppLayout.vue";
+import {Head} from "@inertiajs/vue3";
 
 export default {
     name:'categories',
@@ -62,6 +64,7 @@ export default {
 
     },
     components:{
+        Head,
         AppLayout
 
     }
